@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Award-Winning Surgeon Section</title>
-    <!-- Importing Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Importing Inter font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Importing Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Importing Inter font --><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* Base styles */
         body {
@@ -20,17 +18,20 @@
             overflow: hidden;
         }
         .slider-item {
-            display: none; /* Hide all slides by default */
-            transition: opacity 0.7s ease-in-out;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            opacity: 0; /* Start hidden for smooth fade */
+            pointer-events: none; /* Make non-active slides unclickable */
+            transition: opacity 1.2s ease-in-out; /* Smoother transition duration */
+            z-index: 1; /* Default z-index for all slides */
         }
         .slider-item.active {
-            display: block; /* Show active slide */
-            position: relative;
+            opacity: 1; /* Show active slide */
+            pointer-events: auto; /* Make active slide clickable */
+            z-index: 2; /* Active slide appears above others */
         }
         .slider-item img {
             width: 100%;
@@ -41,21 +42,17 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- Full-Fledged Award Section -->
-    <section class="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+    <!-- Full-Fledged Award Section --><section class="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8">
         <div class="container mx-auto max-w-7xl">
             
-            <!-- Grid container for responsive layout -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Grid container for responsive layout --><div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 
-                <!-- Text Content Column -->
-                <div class="text-center lg:text-left">
+                <!-- Text Content Column --><div class="text-center lg:text-left">
                     <h2 class="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
                         Award-winning Doctor/Surgeon
                     </h2>
                     
-                    <!-- Decorative line -->
-                    <div class="w-24 h-1.5 bg-blue-600 rounded-full mt-6 mb-8 mx-auto lg:mx-0"></div>
+                    <!-- Decorative line --><div class="w-24 h-1.5 bg-blue-600 rounded-full mt-6 mb-8 mx-auto lg:mx-0"></div>
                     
                     <p class="text-2xl font-semibold text-blue-700">
                         Times Gujarat Icon 2025
@@ -69,13 +66,10 @@
                     </p>
                 </div>
 
-                <!-- Image Slider Column -->
-                <div class="w-full">
+                <!-- Image Slider Column --><div class="w-full">
                     <div id="award-slider" class="slider-container w-full h-80 md:h-[500px] bg-gray-200 rounded-lg shadow-2xl overflow-hidden relative">
                         
-                        <!-- Slides -->
-                        <!-- Note: Replace placehold.co URLs with your actual image paths -->
-                        <div class="slider-item active">
+                        <!-- Slides --><!-- Note: Replace placehold.co URLs with your actual image paths --><div class="slider-item active">
                             <img src="1.jpg" 
                                  alt="Doctor receiving award on stage"
                                  onerror="this.src='https://placehold.co/800x600/e0e0e0/333?text=Image+Not+Found'">
@@ -101,22 +95,19 @@
                                  onerror="this.src='https://placehold.co/800x600/b0b0b0/333?text=Image+Not+Found'">
                         </div>
 
-                        <!-- Slider Navigation Buttons -->
-                        <button id="prev-slide" class="absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow-md transition">
+                        <!-- Slider Navigation Buttons --><button id="prev-slide" class="absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/80 hover:bg-white hover:scale-105 rounded-full p-2 shadow-md transition-all duration-200 z-30">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
-                        <button id="next-slide" class="absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow-md transition">
+                        <button id="next-slide" class="absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/80 hover:bg-white hover:scale-105 rounded-full p-2 shadow-md transition-all duration-200 z-30">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
 
-                        <!-- Slider Navigation Dots -->
-                        <div id="slider-dots" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                            <!-- Dots will be generated by JavaScript -->
-                        </div>
+                        <!-- Slider Navigation Dots --><div id="slider-dots" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
+                            <!-- Dots will be generated by JavaScript --></div>
                     </div>
                 </div>
 
@@ -138,11 +129,12 @@
                 // Create dots
                 slides.forEach((_, index) => {
                     const dot = document.createElement('button');
-                    dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-white/50', 'hover:bg-white', 'transition');
+                    dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-white/50', 'hover:bg-white', 'transition', 'cursor-pointer');
                     dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+                    
                     dot.addEventListener('click', () => {
                         showSlide(index);
-                        resetInterval();
+                        resetInterval(); // Reset auto-scroll timer
                     });
                     dotsContainer.appendChild(dot);
                 });
@@ -151,14 +143,7 @@
 
                 // Function to show a specific slide
                 function showSlide(index) {
-                    slides.forEach(slide => {
-                        slide.classList.remove('active');
-                        // Fix for stacking context in absolute positioning
-                        slide.style.zIndex = '0';
-                        slide.style.opacity = '0';
-                    });
-                    dots.forEach(dot => dot.classList.remove('bg-white'));
-                    
+                    // Ensure index wraps around
                     if (index >= slides.length) {
                         currentSlide = 0;
                     } else if (index < 0) {
@@ -167,46 +152,48 @@
                         currentSlide = index;
                     }
 
+                    // Remove active state from all slides and dots
+                    slides.forEach(slide => {
+                        slide.classList.remove('active');
+                    });
+                    dots.forEach(dot => dot.classList.remove('bg-white'));
+                    
+                    // Add active state to the current slide and dot
                     const activeSlide = slides[currentSlide];
                     activeSlide.classList.add('active');
-                    activeSlide.style.zIndex = '10';
-                    activeSlide.style.opacity = '1';
-                    
                     dots[currentSlide].classList.add('bg-white');
                 }
 
-                // Event listeners for next/prev buttons
+                // Manual navigation event listeners
                 nextButton.addEventListener('click', () => {
                     showSlide(currentSlide + 1);
-                    resetInterval();
+                    resetInterval(); // Reset auto-scroll timer
                 });
 
                 prevButton.addEventListener('click', () => {
                     showSlide(currentSlide - 1);
-                    resetInterval();
+                    resetInterval(); // Reset auto-scroll timer
                 });
 
                 // Auto-slide functionality
                 function startInterval() {
                     slideInterval = setInterval(() => {
                         showSlide(currentSlide + 1);
-                    }, 4000); // Change slide every 4 seconds
+                    }, 5000); // Change slide every 5 seconds (increased for better viewing with slower transition)
                 }
 
-                // Reset interval on manual navigation
+                // Reset interval on any manual navigation
                 function resetInterval() {
                     clearInterval(slideInterval);
                     startInterval();
                 }
 
                 // Initial setup
-                showSlide(0);
-                startInterval();
+                showSlide(0); // Show the first slide initially
+                startInterval(); // Start auto-scrolling
             }
         });
     </script>
 
 </body>
 </html>
-
-
